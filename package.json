@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "cross-env AZURE_STORAGE_ACCOUNT_NAME=foo AZURE_STORAGE_ACCOUNT_ACCESS_KEY=foo AZURE_STORAGE_CONTAINER_NAME=foo nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

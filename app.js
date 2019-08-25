@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const blobService = require('./services/azure-blob-service');
 const apiRouter = require('./routes/api-router');
 
 const app = express();
@@ -15,4 +16,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
 
+blobService.ensureEnvironment();
 module.exports = app;
