@@ -2,6 +2,8 @@ const express = require('express');
 const assert = require('assert');
 const _ = require('lodash');
 const httpStatus = require('http-status');
+const moment = require('moment');
+
 const fileController = require('../controllers/file-controller');
 
 // eslint-disable-next-line new-cap
@@ -44,6 +46,7 @@ const createPathDescriptor = (req, res, next) => {
     if (_.startsWith(value, 'ts')) {
       pathDescriptor[index] = {
         key: timestampKey,
+        isTimestamp: true,
         value: header[timestampKey],
         format: _.replace(value, 'ts:', ''),
       };
@@ -70,11 +73,26 @@ const createPathDescriptor = (req, res, next) => {
 };
 
 const createPhysicalPath = (req, res, next) => {
+  assert(req.app.locals.pathDescriptor !== null);
+
+  const segments = [];
+
+  _.forIn(_.sortBy(req.app.locals.pathDescriptor, ['index']),
+      (value, index) => {
+        if (value.isTimestamp) {
+          assert(value.format !== null);
+          segments.push(moment(value.value).format(value.format));
+        } else {
+          segments.push(value.value);
+        }
+      });
+
+  req.app.locals.physicalPath = segments.join('/');
   next();
 };
 
 
-api.use([bodyExists, getPathConfig, createPathDescriptor]);
+api.use([bodyExists, getPathConfig, createPathDescriptor, createPhysicalPath]);
 api.post('/files', fileController.post);
 
 module.exports = api;
