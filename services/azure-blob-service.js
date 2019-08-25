@@ -1,3 +1,13 @@
+const Readable = require('stream');
+const {
+  Aborter,
+  BlockBlobURL,
+  ContainerURL,
+  ServiceURL,
+  SharedKeyCredential,
+  StorageURL,
+  uploadStreamToBlockBlob} = require('@azure/storage-blob');
+
 const ensureEnvironment = () => {
   if (!process.env.AZURE_STORAGE_ACCOUNT_NAME) {
     throw new Error('AZURE_STORAGE_ACCOUNT_NAME non set.');
@@ -12,6 +22,33 @@ const ensureEnvironment = () => {
   }
 };
 
+const uploadString = async (value, path) => {
+  ensureEnvironment();
+
+  const stream = new Readable();
+  stream.push(value);
+  stream.push(null);
+
+  const aborter = Aborter.timeout(30 * 60 * 1000);
+
+  const credentials = new SharedKeyCredential(
+      process.env.AZURE_STORAGE_ACCOUNT_NAME,
+      process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY);
+
+  const pipeline = StorageURL.newPipeline(credentials);
+
+  const serviceURL = new ServiceURL(`https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline);
+
+  const containerURL = ContainerURL.fromServiceURL(
+      serviceURL,
+      AZURE_STORAGE_CONTAINER_NAME);
+
+  const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
+
+  return await uploadStreamToBlockBlob(aborter, stream, blockBlobURL);
+};
+
 module.exports = {
   ensureEnvironment,
+  uploadString,
 };

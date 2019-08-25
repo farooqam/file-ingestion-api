@@ -6,6 +6,7 @@
     "start": "cross-env AZURE_STORAGE_ACCOUNT_NAME=foo AZURE_STORAGE_ACCOUNT_ACCESS_KEY=foo AZURE_STORAGE_CONTAINER_NAME=foo nodemon ./bin/www"
   },
   "dependencies": {
+    "@azure/storage-blob": "^10.4.0",
     "cookie-parser": "~1.4.4",
     "cross-env": "^5.2.0",
     "debug": "~2.6.9",
@@ -13,7 +14,8 @@
     "http-status": "^1.3.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^6.2.2",

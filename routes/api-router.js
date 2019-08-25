@@ -3,6 +3,7 @@ const assert = require('assert');
 const _ = require('lodash');
 const httpStatus = require('http-status');
 const moment = require('moment');
+const uuid = require('uuid/v4');
 
 const fileController = require('../controllers/file-controller');
 
@@ -91,8 +92,26 @@ const createPhysicalPath = (req, res, next) => {
   next();
 };
 
+const generateUniqueFileName = (req, res, next) => {
+  assert(req.app.locals.pathDescriptor !== null);
+
+  const timeStamp = _.filter(req.app.locals.pathDescriptor,
+      (pd) => pd.isTimestamp === true);
+  assert(timeStamp !== null);
+
+  const deviceType = req.app.locals.pathDescriptor.deviceType.value;
+  assert(deviceType !== null);
+
+  const fileName = `${moment(timeStamp.value).format('YYYYMMDDHHMMSS')}-
+    ${uuid()}-${deviceType}`;
+  req.app.locals.fileName = fileName;
+
+  next();
+};
+
 const writeFile = (req, res, next) => {
   assert(req.app.locals.physicalPath !== null);
+  assert(req.app.locals.fileName !== null);
   next();
 };
 
@@ -101,6 +120,7 @@ api.use([
   getPathConfig,
   createPathDescriptor,
   createPhysicalPath,
+  generateUniqueFileName,
   writeFile]);
 
 api.post('/files', fileController.post);
