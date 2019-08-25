@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "49a3a607-a012-42ce-954b-538f20e24c21",
+		"name": "File Ingestion API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Submit File",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b7fba83-98c0-45b4-8c86-2e9c676ff68c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0d8d4d2-0d0a-4a60-a49e-3ea990b6fb01",
+						"exec": [
+							"pm.test('response is ACCEPTED', function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"\r",
+							"pm.test('response contains expected body', function () {\r",
+							"    pm.expect(json.msg).to.eq('Accepted');    \r",
+							"});\r",
+							"\r",
+							"/*var json = pm.response.json();\r",
+							"var user = json.user;\r",
+							"\r",
+							"pm.test('user contains expected data', function () {\r",
+							"    pm.expect(user._id).to.not.eq(undefined);\r",
+							"    pm.expect(user.email).to.not.eq(undefined);\r",
+							"    pm.expect(user.password).to.not.eq(undefined);\r",
+							"    pm.expect(user.name).to.not.eq(undefined);\r",
+							"    pm.expect(user.__v).to.not.eq(undefined);\r",
+							"});\r",
+							"\r",
+							"pm.test('response contains token', function() {\r",
+							"    pm.expect(json.token).to.not.eq(undefined); \r",
+							"});\r",
+							"\r",
+							"pm.test('response contains encrypted password', function() {\r",
+							"    pm.expect(user.password).to.not.eq(pm.environment.get('password')); \r",
+							"});\r",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}/api/files",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"files"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
