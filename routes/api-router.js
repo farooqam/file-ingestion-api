@@ -34,10 +34,11 @@ const bodyHasValidHeader = (req, res, next) => {
 
   _.forIn(configKeys, (value, key) => {
     if (_.startsWith(value, 'ts')) {
-      pathDescriptor['timeStampInfo'] = {};
-      pathDescriptor['timeStampInfo']['key'] = timestampKey;
-      pathDescriptor['timeStampInfo']['format'] = value;
-      pathDescriptor['timeStampInfo']['value'] = header[timestampKey];
+      timeStampInfo = {};
+      timeStampInfo['key'] = timestampKey;
+      timeStampInfo['format'] = value;
+      timeStampInfo['value'] = header[timestampKey];  
+      pathDescriptor.timeStampInfo = timeStampInfo;
     } else {
       if (!header[value]) {
         missingValues.push(`Header key ${value} is missing.`);
@@ -52,6 +53,7 @@ const bodyHasValidHeader = (req, res, next) => {
     res.status(httpStatus.BAD_REQUEST)
         .send({errors: missingValues});
   } else {
+    req.app.locals.pathDescriptor = pathDescriptor;
     next();
   }
 };
