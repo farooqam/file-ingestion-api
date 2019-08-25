@@ -40,18 +40,21 @@ const createPathDescriptor = (req, res, next) => {
 
   const pathDescriptor = {};
 
-  _.forIn(configKeys, (value, key) => {
+  _.forIn(configKeys, (value, index) => {
     if (_.startsWith(value, 'ts')) {
-      timeStampInfo = {};
-      timeStampInfo['key'] = timestampKey;
-      timeStampInfo['format'] = _.replace(value, 'ts:', '');
-      timeStampInfo['value'] = header[timestampKey];
-      pathDescriptor.timeStampInfo = timeStampInfo;
+      pathDescriptor[index] = {
+        key: timestampKey,
+        value: header[timestampKey],
+        format: _.replace(value, 'ts:', ''),
+      };
     } else {
       if (!header[value]) {
         missingValues.push(`Header key ${value} is missing.`);
       } else {
-        pathDescriptor[value] = header[value];
+        pathDescriptor[index] = {
+          key: value,
+          value: header[value],
+        };
       }
     }
   }
@@ -64,6 +67,10 @@ const createPathDescriptor = (req, res, next) => {
     req.app.locals.pathDescriptor = pathDescriptor;
     next();
   }
+};
+
+const createPhysicalPath = (req, res, next) => {
+  next();
 };
 
 
