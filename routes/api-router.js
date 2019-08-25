@@ -91,8 +91,18 @@ const createPhysicalPath = (req, res, next) => {
   next();
 };
 
+const writeFile = (req, res, next) => {
+  assert(req.app.locals.physicalPath !== null);
+  next();
+};
 
-api.use([bodyExists, getPathConfig, createPathDescriptor, createPhysicalPath]);
+api.use([
+  bodyExists,
+  getPathConfig,
+  createPathDescriptor,
+  createPhysicalPath,
+  writeFile]);
+
 api.post('/files', fileController.post);
 
 module.exports = api;

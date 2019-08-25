@@ -69,7 +69,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "[\r\n   {\r\n      \"deviceId\":\"1234\",\r\n      \"timeStamp\":\"2019-01-01T08:46:48.7763393Z\",\r\n      \"type\":\"testDevice\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n]"
 				},
 				"url": {
 					"raw": "{{protocol}}://{{hostname}}/api/files",
@@ -80,6 +80,332 @@
 					"path": [
 						"api",
 						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit File - File not specified",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b7fba83-98c0-45b4-8c86-2e9c676ff68c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0d8d4d2-0d0a-4a60-a49e-3ea990b6fb01",
+						"exec": [
+							"pm.test('response is BAD REQUEST', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"\r",
+							"pm.test('response contains expected error message', function () {\r",
+							"    pm.expect(json.msg).to.eq('File contents must be specified in body.');    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[]"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}/api/files",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit File - DeviceId missing",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b7fba83-98c0-45b4-8c86-2e9c676ff68c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0d8d4d2-0d0a-4a60-a49e-3ea990b6fb01",
+						"exec": [
+							"pm.test('response is BAD REQUEST', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"var errors = json.errors;\r",
+							"\r",
+							"pm.test('response contains one error', function () {\r",
+							"    pm.expect(errors.length).to.eq(1);    \r",
+							"});\r",
+							"\r",
+							"pm.test('response contains expected error message', function () {\r",
+							"    pm.expect(errors[0]).to.eq('Header key deviceId is missing.');    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n      \"deviceId\":\"\",\r\n      \"timeStamp\":\"2019-01-01T08:46:48.7763393Z\",\r\n      \"type\":\"testDevice\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n]"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}/api/files",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit File - Device Type missing",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b7fba83-98c0-45b4-8c86-2e9c676ff68c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0d8d4d2-0d0a-4a60-a49e-3ea990b6fb01",
+						"exec": [
+							"pm.test('response is BAD REQUEST', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"var errors = json.errors;\r",
+							"\r",
+							"pm.test('response contains one error', function () {\r",
+							"    pm.expect(errors.length).to.eq(1);    \r",
+							"});\r",
+							"\r",
+							"pm.test('response contains expected error message', function () {\r",
+							"    pm.expect(errors[0]).to.eq('Header key type is missing.');    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n      \"deviceId\":\"1234\",\r\n      \"timeStamp\":\"2019-01-01T08:46:48.7763393Z\",\r\n      \"type\":\"\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n]"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}/api/files",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit File - Timestamp missing",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b7fba83-98c0-45b4-8c86-2e9c676ff68c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0d8d4d2-0d0a-4a60-a49e-3ea990b6fb01",
+						"exec": [
+							"pm.test('response is BAD REQUEST', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"var errors = json.errors;\r",
+							"\r",
+							"pm.test('response contains one error', function () {\r",
+							"    pm.expect(errors.length).to.eq(1);    \r",
+							"});\r",
+							"\r",
+							"pm.test('response contains expected error message', function () {\r",
+							"    pm.expect(errors[0]).to.eq('Header key timeStamp is missing.');    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n      \"deviceId\":\"1234\",\r\n      \"timeStamp\":\"\",\r\n      \"type\":\"testDevice\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n]"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}/api/files",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit File - Timestamp key specified in query string not found in body",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b7fba83-98c0-45b4-8c86-2e9c676ff68c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0d8d4d2-0d0a-4a60-a49e-3ea990b6fb01",
+						"exec": [
+							"pm.test('response is BAD REQUEST', function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"var json = pm.response.json();\r",
+							"var errors = json.errors;\r",
+							"\r",
+							"pm.test('response contains one error', function () {\r",
+							"    pm.expect(errors.length).to.eq(1);    \r",
+							"});\r",
+							"\r",
+							"pm.test('response contains expected error message', function () {\r",
+							"    pm.expect(errors[0]).to.eq('Header key foo is missing.');    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n      \"deviceId\":\"1234\",\r\n      \"timeStamp\":\"2019-01-01T08:46:48.7763393Z\",\r\n      \"type\":\"testDevice\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n]"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}/api/files?timestampKey=foo",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"files"
+					],
+					"query": [
+						{
+							"key": "timestampKey",
+							"value": "foo"
+						}
 					]
 				}
 			},
