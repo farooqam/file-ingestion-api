@@ -16,9 +16,14 @@ const bodyExists = (req, res, next) => {
   }
 };
 
-const bodyHasValidHeader = (req, res, next) => {
-  const config = req.params.config || '/deviceId/type/ts:YYYYMMDD';
-  const timestampKey = req.params.timestampKey || 'timeStamp';
+const getPathConfig = (req, res, next) => {
+  const pathConfig = req.query.config || '/deviceId/type/ts:YYYYMMDD';
+  req.app.locals.pathConfig = pathConfig;
+  next();
+};
+
+const createPathDescriptor = (req, res, next) => {
+  const timestampKey = req.query.timestampKey || 'timeStamp';
   const header = req.body[0];
 
   assert(header !== null);
@@ -28,16 +33,19 @@ const bodyHasValidHeader = (req, res, next) => {
   if (!header[timestampKey]) {
     missingValues.push(`Header key ${timestampKey} is missing.`);
   }
+  assert(req.app.locals.pathConfig !== null);
 
-  const configKeys = _.split(config, '/').filter((ck) => ck.length > 0);
+  const configKeys = _.split(req.app.locals.pathConfig, '/')
+      .filter((ck) => ck.length > 0);
+
   const pathDescriptor = {};
 
   _.forIn(configKeys, (value, key) => {
     if (_.startsWith(value, 'ts')) {
       timeStampInfo = {};
       timeStampInfo['key'] = timestampKey;
-      timeStampInfo['format'] = value;
-      timeStampInfo['value'] = header[timestampKey];  
+      timeStampInfo['format'] = _.replace(value, 'ts:', '');
+      timeStampInfo['value'] = header[timestampKey];
       pathDescriptor.timeStampInfo = timeStampInfo;
     } else {
       if (!header[value]) {
@@ -59,7 +67,7 @@ const bodyHasValidHeader = (req, res, next) => {
 };
 
 
-api.use([bodyExists, bodyHasValidHeader]);
+api.use([bodyExists, getPathConfig, createPathDescriptor]);
 api.post('/files', fileController.post);
 
 module.exports = api;
