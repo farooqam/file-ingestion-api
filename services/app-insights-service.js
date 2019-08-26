@@ -3,8 +3,12 @@ const apiError = require('./api-error-service');
 
 let appInsightsKey;
 
+const getAppInsightsKey = () => {
+  return process.env.APPINSIGHTS_INSTRUMENTATIONKEY;
+};
+
 const ensureEnvironment = () => {
-  appInsightsKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY;
+  appInsightsKey = getAppInsightsKey();
 
   if (!appInsightsKey) {
     throw apiError('APPINSIGHTS_INSTRUMENTATIONKEY not set.');
@@ -12,7 +16,7 @@ const ensureEnvironment = () => {
 };
 
 const start = () => {
-  appInsights.setup(appInsightsKey)
+  appInsights.setup(getAppInsightsKey())
       .setAutoDependencyCorrelation(true)
       .setAutoCollectRequests(true)
       .setAutoCollectPerformance(true)
@@ -27,8 +31,13 @@ const getClient = () => {
   return appInsights.defaultClient;
 };
 
+const logException = (errorObject) => {
+  getClient().trackException({exception: JSON.stringify(errorObject)});
+};
+
 module.exports = {
   start,
   ensureEnvironment,
   getClient,
+  logException,
 };

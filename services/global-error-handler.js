@@ -1,5 +1,4 @@
 const httpStatus = require('http-status');
-
 const appInsights = require('./app-insights-service');
 
 module.exports = (error, req, res, next) => {
@@ -12,7 +11,6 @@ module.exports = (error, req, res, next) => {
     data,
   };
 
-  const appInsightsClient = appInsights.getClient();
-  appInsightsClient.trackException({exception: errorObject});
+  appInsights.logException(errorObject);
   res.status(status).send({error: errorObject});
 };
