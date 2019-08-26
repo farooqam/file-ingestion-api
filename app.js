@@ -16,9 +16,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
+app.use(globalErrorHandler);
 
 blobService.ensureEnvironment();
-
-app.use(globalErrorHandler);
 
 module.exports = app;
