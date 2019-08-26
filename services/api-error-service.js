@@ -1,16 +1,21 @@
 const httpStatus = require('http-status');
 
-module.exports = (msg, status, data) => {
-  if (msg === null) {
-    msg = 'An error occurred.';
+module.exports = (message, status, data) => {
+  if (!message) {
+    message = 'An error occurred.';
   }
 
-  if (status === null) {
+  if (!status) {
     status = httpStatus.INTERNAL_SERVER_ERROR;
-  }
+  };
 
-  const error = new Error(msg);
-  error.status = status;
-  error.data = data;
-  return error;
+  return {
+    root: {
+      error: {
+        message,
+        data,
+      },
+    },
+    status,
+  };
 };

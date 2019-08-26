@@ -1,16 +1,6 @@
-const httpStatus = require('http-status');
 const appInsights = require('./app-insights-service');
 
 module.exports = (error, req, res, next) => {
-  const status = error.status || httpStatus.INTERNAL_SERVER_ERROR;
-  const message = error.message;
-  const data = error.data;
-
-  const errorObject = {
-    message,
-    data,
-  };
-
-  appInsights.logException(errorObject);
-  res.status(status).send({error: errorObject});
+  appInsights.logException(error.root);
+  res.status(error.status).send(error.root);
 };

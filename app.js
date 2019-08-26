@@ -21,9 +21,10 @@ app.use(globalErrorHandler);
 blobService.ensureEnvironment();
 
 if (!process.env.APPINSIGHTS_DISABLED) {
-  console.log('Application Insights monitoring is disabled.');
   appInsights.ensureEnvironment();
   appInsights.start();
+} else {
+  console.log('Application Insights monitoring is disabled.');
 }
 
 module.exports = app;
