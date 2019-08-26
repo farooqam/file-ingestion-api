@@ -8,17 +8,19 @@ const {
   StorageURL,
   uploadStreamToBlockBlob} = require('@azure/storage-blob');
 
+const apiError = require('./api-error-service');
+
 const ensureEnvironment = () => {
   if (!process.env.AZURE_STORAGE_ACCOUNT_NAME) {
-    throw new Error('AZURE_STORAGE_ACCOUNT_NAME not set.');
+    throw apiError('AZURE_STORAGE_ACCOUNT_NAME not set.');
   }
 
   if (!process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY) {
-    throw new Error('AZURE_STORAGE_ACCOUNT_ACCESS_KEY not set.');
+    throw apiError('AZURE_STORAGE_ACCOUNT_ACCESS_KEY not set.');
   }
 
   if (!process.env.AZURE_STORAGE_CONTAINER_NAME) {
-    throw new Error('AZURE_STORAGE_CONTAINER_NAME not set.');
+    throw apiError('AZURE_STORAGE_CONTAINER_NAME not set.');
   }
 };
 
