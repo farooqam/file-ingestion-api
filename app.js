@@ -19,7 +19,11 @@ app.use('/api', apiRouter);
 app.use(globalErrorHandler);
 
 blobService.ensureEnvironment();
-appInsights.ensureEnvironment();
-appInsights.start();
+
+if (!process.env.APPINSIGHTS_DISABLED) {
+  console.log('Application Insights monitoring is disabled.');
+  appInsights.ensureEnvironment();
+  appInsights.start();
+}
 
 module.exports = app;
