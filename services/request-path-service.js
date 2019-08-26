@@ -116,17 +116,7 @@ const writeFile = async (req, res, next) => {
         path.join(req.app.locals.physicalPath, req.app.locals.fileName));
     next();
   } catch (error) {
-    const apiError = {
-      message: 'File upload failed.',
-      errors: [
-        {
-          message: error.message,
-        },
-      ],
-    };
-
-    res.status(httpStatus.INTERNAL_SERVER_ERROR)
-        .send(apiError);
+    next(error);
   }
 };
 
