@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env AZURE_STORAGE_ACCOUNT_NAME=mcdeuwdatarawdl AZURE_STORAGE_ACCOUNT_ACCESS_KEY=F4MikmKtCJAqdYHdI+YTlLHIQoOO1lHkKUnrwXFJoPBXrDuqHQ4u4ucEj/B6fOO1c2jcJZOXUpe+yP/eW695WA== AZURE_STORAGE_CONTAINER_NAME=raw nodemon ./bin/www"
+    "start": "cross-env AZURE_STORAGE_ACCOUNT_NAME=mcdeuwdatarawdl AZURE_STORAGE_ACCOUNT_ACCESS_KEY=F4MikmKtCJAqdYHdI+YTlLHIQoOO1lHkKUnrwXFJoPBXrDuqHQ4u4ucEj/B6fOO1c2jcJZOXUpe+yP/eW695WA== AZURE_STORAGE_CONTAINER_NAME=raw nodemon ./bin/www",
+    "postman": "newman run postman-tests/postman.collection.json -e postman-tests/postman.environment.local.json"
   },
   "dependencies": {
     "@azure/storage-blob": "^10.4.0",

@@ -25,33 +25,7 @@
 						"exec": [
 							"pm.test('response is ACCEPTED', function () {\r",
 							"    pm.response.to.have.status(202);\r",
-							"});\r",
-							"\r",
-							"var json = pm.response.json();\r",
-							"\r",
-							"pm.test('response contains expected body', function () {\r",
-							"    pm.expect(json.msg).to.eq('Accepted');    \r",
-							"});\r",
-							"\r",
-							"/*var json = pm.response.json();\r",
-							"var user = json.user;\r",
-							"\r",
-							"pm.test('user contains expected data', function () {\r",
-							"    pm.expect(user._id).to.not.eq(undefined);\r",
-							"    pm.expect(user.email).to.not.eq(undefined);\r",
-							"    pm.expect(user.password).to.not.eq(undefined);\r",
-							"    pm.expect(user.name).to.not.eq(undefined);\r",
-							"    pm.expect(user.__v).to.not.eq(undefined);\r",
-							"});\r",
-							"\r",
-							"pm.test('response contains token', function() {\r",
-							"    pm.expect(json.token).to.not.eq(undefined); \r",
-							"});\r",
-							"\r",
-							"pm.test('response contains encrypted password', function() {\r",
-							"    pm.expect(user.password).to.not.eq(pm.environment.get('password')); \r",
-							"});\r",
-							"*/"
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -69,7 +43,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n   {\r\n      \"deviceId\":\"1234\",\r\n      \"timeStamp\":\"2019-01-01T08:46:48.7763393Z\",\r\n      \"type\":\"testDevice\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n]"
+					"raw": "[\r\n   {\r\n      \"deviceId\":\"nodeTestDevice1234\",\r\n      \"timeStamp\":\"2019-01-01T08:46:48.7763393Z\",\r\n      \"type\":\"nodeTestDevice\",\r\n      \"version\":1,\r\n      \"body\":[\r\n\r\n      ]\r\n   }\r\n] "
 				},
 				"url": {
 					"raw": "{{protocol}}://{{hostname}}/api/files",
@@ -110,7 +84,7 @@
 							"var json = pm.response.json();\r",
 							"\r",
 							"pm.test('response contains expected error message', function () {\r",
-							"    pm.expect(json.msg).to.eq('File contents must be specified in body.');    \r",
+							"    pm.expect(json.message).to.eq('File contents must be specified in body.');    \r",
 							"});"
 						],
 						"type": "text/javascript"

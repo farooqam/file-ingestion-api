@@ -9,7 +9,7 @@ const azureBlobService = require('../services/azure-blob-service');
 const bodyExists = (req, res, next) => {
   if (!req.body || !req.body[0]) {
     res.status(httpStatus.BAD_REQUEST)
-        .send({msg: 'File contents must be specified in body.'});
+        .send({message: 'File contents must be specified in body.'});
   } else {
     next();
   }
