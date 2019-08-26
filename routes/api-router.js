@@ -4,6 +4,8 @@ const _ = require('lodash');
 const httpStatus = require('http-status');
 const moment = require('moment');
 const uuid = require('uuid/v4');
+const path = require('path');
+const azureBlobService = require('../services/azure-blob-service');
 
 const fileController = require('../controllers/file-controller');
 
@@ -96,22 +98,24 @@ const generateUniqueFileName = (req, res, next) => {
   assert(req.app.locals.pathDescriptor !== null);
 
   const timeStamp = _.filter(req.app.locals.pathDescriptor,
-      (pd) => pd.isTimestamp === true);
+      (pd) => pd.isTimestamp === true)[0];
   assert(timeStamp !== null);
 
-  const deviceType = req.app.locals.pathDescriptor.deviceType.value;
-  assert(deviceType !== null);
-
-  const fileName = `${moment(timeStamp.value).format('YYYYMMDDHHMMSS')}-
-    ${uuid()}-${deviceType}`;
+  const fileName = `${moment(timeStamp.value)
+      .format('YYYYMMDDHHMMSS')}-${uuid()}`;
   req.app.locals.fileName = fileName;
 
   next();
 };
 
-const writeFile = (req, res, next) => {
+const writeFile = async (req, res, next) => {
   assert(req.app.locals.physicalPath !== null);
   assert(req.app.locals.fileName !== null);
+
+  await azureBlobService.uploadString(
+      JSON.stringify(req.body),
+      path.join(req.app.locals.physicalPath, req.app.locals.fileName));
+
   next();
 };
 

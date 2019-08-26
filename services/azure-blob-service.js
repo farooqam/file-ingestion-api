@@ -1,4 +1,4 @@
-const Readable = require('stream');
+const Readable = require('stream').Readable;
 const {
   Aborter,
   BlockBlobURL,
@@ -37,13 +37,13 @@ const uploadString = async (value, path) => {
 
   const pipeline = StorageURL.newPipeline(credentials);
 
-  const serviceURL = new ServiceURL(`https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline);
+  const serviceURL = new ServiceURL(`https://${process.env.AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline);
 
   const containerURL = ContainerURL.fromServiceURL(
       serviceURL,
-      AZURE_STORAGE_CONTAINER_NAME);
+      process.env.AZURE_STORAGE_CONTAINER_NAME);
 
-  const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
+  const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, path);
 
   return await uploadStreamToBlockBlob(aborter, stream, blockBlobURL);
 };
