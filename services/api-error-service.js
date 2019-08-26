@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 
-module.exports = (msg, status) => {
+module.exports = (msg, status, data) => {
   if (msg === null) {
     msg = 'An error occurred.';
   }
@@ -11,5 +11,6 @@ module.exports = (msg, status) => {
 
   const error = new Error(msg);
   error.status = status;
+  error.data = data;
   return error;
 };

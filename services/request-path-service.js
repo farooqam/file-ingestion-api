@@ -5,11 +5,13 @@ const moment = require('moment');
 const uuid = require('uuid/v4');
 const path = require('path');
 const azureBlobService = require('../services/azure-blob-service');
+const apiError = require('../services/api-error-service');
 
 const bodyExists = (req, res, next) => {
   if (!req.body || !req.body[0]) {
-    res.status(httpStatus.BAD_REQUEST)
-        .send({message: 'File contents must be specified in body.'});
+    throw apiError(
+        'File contents must be specified in body.',
+        httpStatus.BAD_REQUEST);
   } else {
     next();
   }
@@ -61,8 +63,10 @@ const createPathDescriptor = (req, res, next) => {
   );
 
   if (missingValues.length > 0) {
-    res.status(httpStatus.BAD_REQUEST)
-        .send({errors: missingValues});
+    throw apiError(
+        'File contents must be specified in body.',
+        httpStatus.BAD_REQUEST,
+        {errors: missingValues});
   } else {
     req.app.locals.pathDescriptor = pathDescriptor;
     next();
@@ -106,11 +110,24 @@ const writeFile = async (req, res, next) => {
   assert(req.app.locals.physicalPath !== null);
   assert(req.app.locals.fileName !== null);
 
-  await azureBlobService.uploadString(
-      JSON.stringify(req.body),
-      path.join(req.app.locals.physicalPath, req.app.locals.fileName));
+  try {
+    const response = await azureBlobService.uploadString(
+        JSON.stringify(req.body),
+        path.join(req.app.locals.physicalPath, req.app.locals.fileName));
+    next();
+  } catch (error) {
+    const apiError = {
+      message: 'File upload failed.',
+      errors: [
+        {
+          message: error.message,
+        },
+      ],
+    };
 
-  next();
+    res.status(httpStatus.INTERNAL_SERVER_ERROR)
+        .send(apiError);
+  }
 };
 
 module.exports = {
