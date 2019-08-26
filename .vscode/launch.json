@@ -11,7 +11,7 @@
       "program": "${workspaceFolder}\\bin\\www",
       "env": {
         "NODE_ENV": "development",
-        "AZURE_STORAGE_ACCOUNT_NAME": "mcdeuwdatarawdl",
+        "AZURE_STORAGE_ACCOUNT_NAME": "mcdeuwdatarawdlxxx",
         "AZURE_STORAGE_ACCOUNT_ACCESS_KEY": "F4MikmKtCJAqdYHdI+YTlLHIQoOO1lHkKUnrwXFJoPBXrDuqHQ4u4ucEj/B6fOO1c2jcJZOXUpe+yP/eW695WA==",
         "AZURE_STORAGE_CONTAINER_NAME": "raw",
         "APPINSIGHTS_INSTRUMENTATIONKEY": "cd2e1c78-199e-4f82-ab6c-8ab4adb385d8"

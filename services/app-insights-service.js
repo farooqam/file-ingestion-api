@@ -1,5 +1,8 @@
+const express = require('express');
 const appInsights = require('applicationinsights');
 const apiError = require('./api-error-service');
+
+const app = express();
 
 let appInsightsKey;
 
@@ -21,6 +24,8 @@ const start = () => {
       .setAutoCollectConsole(true)
       .setUseDiskRetryCaching(true)
       .start();
+
+  app.locals.appInsightsClient = appInsights.defaultClient;
 };
 
 module.exports = {

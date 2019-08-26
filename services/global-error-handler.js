@@ -1,3 +1,4 @@
+const app = require('../app');
 const httpStatus = require('http-status');
 
 module.exports = (error, req, res, next) => {
@@ -10,5 +11,6 @@ module.exports = (error, req, res, next) => {
     data,
   };
 
+  app.locals.appInsightsClient.trackException({exception: errorObject});
   res.status(status).send({error: errorObject});
 };
