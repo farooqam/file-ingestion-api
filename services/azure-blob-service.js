@@ -39,7 +39,13 @@ const uploadString = async (value, path) => {
 
   const pipeline = StorageURL.newPipeline(credentials);
 
-  const serviceURL = new ServiceURL(`https://${process.env.AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline);
+  let serviceURL;
+
+  if (process.env.USE_LOCAL_STORAGE) {
+    serviceURL = new ServiceURL(`http://127.0.0.1:10000/${process.env.AZURE_STORAGE_ACCOUNT_NAME}`, pipeline);
+  } else {
+    serviceURL = new ServiceURL(`https://${process.env.AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline);
+  }
 
   const containerURL = ContainerURL.fromServiceURL(
       serviceURL,
