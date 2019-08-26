@@ -10,15 +10,15 @@ const {
 
 const ensureEnvironment = () => {
   if (!process.env.AZURE_STORAGE_ACCOUNT_NAME) {
-    throw new Error('AZURE_STORAGE_ACCOUNT_NAME non set.');
+    throw new Error('AZURE_STORAGE_ACCOUNT_NAME not set.');
   }
 
   if (!process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY) {
-    throw new Error('AZURE_STORAGE_ACCOUNT_ACCESS_KEY non set.');
+    throw new Error('AZURE_STORAGE_ACCOUNT_ACCESS_KEY not set.');
   }
 
   if (!process.env.AZURE_STORAGE_CONTAINER_NAME) {
-    throw new Error('AZURE_STORAGE_CONTAINER_NAME non set.');
+    throw new Error('AZURE_STORAGE_CONTAINER_NAME not set.');
   }
 };
 
