@@ -9,7 +9,6 @@
   "dependencies": {
     "@azure/storage-blob": "^10.4.0",
     "applicationinsights": "^1.4.1",
-    "cookie-parser": "~1.4.4",
     "cross-env": "^5.2.0",
     "debug": "~2.6.9",
     "express": "~4.16.1",
